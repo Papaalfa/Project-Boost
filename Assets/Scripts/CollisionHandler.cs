@@ -14,7 +14,7 @@ public class CollisionHandler : MonoBehaviour
                 Debug.Log("Collected Fuel");
                 break;
             case "Finish":
-                Debug.Log("Got to the Finish");
+                LoadNextLevel();
                 break;
             default:
                 ReloadLevel();
@@ -26,5 +26,12 @@ public class CollisionHandler : MonoBehaviour
     {
         int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentLevelIndex);
+    }
+
+    void LoadNextLevel()
+    {
+        int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextLevel = currentLevelIndex == SceneManager.sceneCountInBuildSettings - 1 ? 0 : currentLevelIndex + 1;
+        SceneManager.LoadScene(nextLevel);
     }
 }
