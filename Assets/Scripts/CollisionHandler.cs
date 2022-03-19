@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
+    [SerializeField] float delay = 1f;
+
     void OnCollisionEnter(Collision other)
     {
         switch (other.gameObject.tag)
@@ -10,16 +12,25 @@ public class CollisionHandler : MonoBehaviour
             case "Friendly":
                 Debug.Log("Touched Friendly");
                 break;
-            case "Fuel":
-                Debug.Log("Collected Fuel");
-                break;
             case "Finish":
-                LoadNextLevel();
+                StartNewLevelSequence();
                 break;
             default:
-                ReloadLevel();
+                StartCrashSequence();
                 break;
         }
+    }
+
+    void StartCrashSequence()
+    {
+        GetComponent<Movement>().enabled = false;
+        Invoke("ReloadLevel", delay);
+    }
+
+    void StartNewLevelSequence()
+    {
+        GetComponent<Movement>().enabled = false;
+        Invoke("LoadNextLevel", delay);
     }
 
     void ReloadLevel()
