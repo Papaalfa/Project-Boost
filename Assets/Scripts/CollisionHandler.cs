@@ -13,14 +13,17 @@ public class CollisionHandler : MonoBehaviour
 
     bool isTransitioning = false;
 
-    private void Start()
+    public bool collisionDisabled { get; set; }
+
+    void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        collisionDisabled = false;
     }
 
     void OnCollisionEnter(Collision other)
     {
-        if (isTransitioning) return;
+        if (isTransitioning || collisionDisabled) return;
 
         switch (other.gameObject.tag)
         {
@@ -62,7 +65,7 @@ public class CollisionHandler : MonoBehaviour
         SceneManager.LoadScene(currentLevelIndex);
     }
 
-    void LoadNextLevel()
+    public void LoadNextLevel()
     {
         int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
         int nextLevel = currentLevelIndex == SceneManager.sceneCountInBuildSettings - 1 ? 0 : currentLevelIndex + 1;

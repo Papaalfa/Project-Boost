@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -32,14 +30,11 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            rb.AddRelativeForce(Vector3.up * thrustForce * Time.deltaTime);
-            if (!audioSource.isPlaying) audioSource.PlayOneShot(engingeThrust);
-            if (!mainBoosterParticles.isPlaying) mainBoosterParticles.Play();
+            StartThrusting();
         }
         else
         {
-            audioSource.Stop();
-            mainBoosterParticles.Stop();
+            StopThrusting();
         }
     }
 
@@ -47,19 +42,47 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            ApplyRotation(rotateSpeed);
-            if (!rightBoosterParticles.isPlaying) rightBoosterParticles.Play();
+            LeftRotationStart();
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            ApplyRotation(-rotateSpeed);
-            if (!leftBoosterParticles.isPlaying) leftBoosterParticles.Play();
+            RightRotationStart();
         }
         else
         {
-            leftBoosterParticles.Stop();
-            rightBoosterParticles.Stop();
+            RotationStop();
         }
+    }
+
+    void StartThrusting()
+    {
+        rb.AddRelativeForce(Vector3.up * thrustForce * Time.deltaTime);
+        if (!audioSource.isPlaying) audioSource.PlayOneShot(engingeThrust);
+        if (!mainBoosterParticles.isPlaying) mainBoosterParticles.Play();
+    }
+
+    private void StopThrusting()
+    {
+        audioSource.Stop();
+        mainBoosterParticles.Stop();
+    }
+
+    void RightRotationStart()
+    {
+        ApplyRotation(-rotateSpeed);
+        if (!leftBoosterParticles.isPlaying) leftBoosterParticles.Play();
+    }
+
+    void LeftRotationStart()
+    {
+        ApplyRotation(rotateSpeed);
+        if (!rightBoosterParticles.isPlaying) rightBoosterParticles.Play();
+    }
+
+    void RotationStop()
+    {
+        leftBoosterParticles.Stop();
+        rightBoosterParticles.Stop();
     }
 
     void ApplyRotation(float rotationThisFrame)
