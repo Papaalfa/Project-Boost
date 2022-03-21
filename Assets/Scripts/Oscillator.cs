@@ -14,6 +14,8 @@ public class Oscillator : MonoBehaviour
 
     void Update()
     {
+        if (period <= Mathf.Epsilon) return;
+
         float cycles = Time.time * period; // constantly growing over time
 
         const float tau = Mathf.PI * 2f; // constant of 6.283
@@ -21,7 +23,7 @@ public class Oscillator : MonoBehaviour
 
         movementFactor = (rawSin + 1f) / 2f; // calculate to move from 0 to 1
         
-        Vector3 offset = movementVector * movementFactor;
+Vector3 offset = movementVector * movementFactor;
         transform.position = startingPosition + offset;
     }
 }
